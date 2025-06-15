@@ -1,110 +1,82 @@
----
+# 🇲🇲 Myanmar Handwriting OCR
 
-## 🇲🇲 Myanmar Handwriting OCR
+## Project Summary
 
-### 📌 Project Overview
+**Myanmar Handwriting OCR** is an AI-based Optical Character Recognition system designed to detect and transcribe handwritten Burmese (Myanmar) text from images. Built using advanced deep learning models (CNN + CRNN + CTC), this project aims to accelerate the digitization of handwritten records for Myanmar’s public and private sectors.
 
-**Myanmar Handwriting OCR** is an AI-powered Optical Character Recognition system that detects and transcribes handwritten Burmese text from images. It leverages deep learning techniques (CNN + CRNN + CTC decoding) to convert real-world handwritten forms such as NRCs, school documents, and handwritten names into **machine-readable Unicode text**.
+## Key Features
 
-This system is designed for use in **digitization projects**, **government forms processing**, and **educational data collection** — helping Myanmar organizations move from paper to digital with greater speed and accuracy.
+- **Automatic Extraction:** Accurately recognizes handwritten Burmese characters and numbers from scanned images or photos.
+- **Unicode Output:** Delivers output as searchable and editable Unicode Burmese text.
+- **API-Ready:** Designed for easy integration with government systems, school databases, and custom OCR dashboards via API.
+- **Flexible Integration:** Supports future connections with various frontends or third-party systems.
 
----
-
-### 🎯 Project Goals
-
-* ✅ Automatically extract **handwritten Burmese characters and numbers** from scanned images or photos.
-* ✅ Output **Unicode text** that is searchable, editable, and storable.
-* ✅ Enable future integration into **government systems, school databases, and OCR dashboards**.
-* ✅ Support **custom API integration** with a frontend or other systems.
-
----
-
-### 🧠 ML Techniques Used
+## Machine Learning Pipeline
 
 | Step | Technique                                               | Description                                                             |
-| ---- | ------------------------------------------------------- | ----------------------------------------------------------------------- |
-| 1️⃣  | **CNN (Convolutional Neural Network)**                  | For image feature extraction from raw handwriting input                 |
-| 2️⃣  | **CRNN (Convolutional Recurrent Neural Network)**       | To understand sequence of characters (like handwriting flow)            |
-| 3️⃣  | **CTC Decoder (Connectionist Temporal Classification)** | For sequence alignment and text decoding without character segmentation |
+|------|--------------------------------------------------------|-------------------------------------------------------------------------|
+| 1️⃣   | **CNN (Convolutional Neural Network)**                 | Extracts features from raw handwritten images                            |
+| 2️⃣   | **CRNN (Convolutional Recurrent Neural Network)**      | Processes character sequences and handwriting flow                       |
+| 3️⃣   | **CTC Decoder (Connectionist Temporal Classification)**| Decodes text sequences without needing explicit character segmentation   |
 
----
+## Input & Output
 
-### 🖼️ Input & Output
+- **Input:** Images containing handwritten Burmese (e.g., NRC cards, school forms, notes)
+- **Output:** Unicode Burmese text (e.g., မောင် ခေါင်, ၈/တနင်္သာရီ(N)၁၂၃၄၅၆)
 
-* **Input:** Image file containing handwritten Burmese text (e.g., scanned NRC, school forms, notes)
-* **Output:** Unicode Burmese text (e.g., မောင် ခေါင်, ၈/တနင်္သာရီ(N)၁၂၃၄၅၆)
+## Image Preprocessing Workflow
 
----
+1. **Grayscale Conversion:** Reduces color noise by converting images to grayscale.
+2. **Resize & Normalize:** Standardizes image size and pixel values.
+3. **Padding:** Adds white margins to center the text for variable aspect ratios.
+4. **Tensor Transformation:** Converts images to PyTorch tensors.
+5. **Inference:** Processes images through the trained CNN+CRNN model.
+6. **CTC Decoding:** Extracts the predicted sequence of characters.
+7. **Unicode Output:** Returns the result as a Unicode Burmese string via the API.
 
-### 🔬 Image Preprocessing Pipeline
+## Backend Overview (Python)
 
-1. 📷 **Convert to Grayscale** — Reduce noise from RGB channels.
-2. 📏 **Resize & Normalize** — Scale images to consistent shape and normalize pixel values.
-3. ⬜ **Pad** — Add white padding to center text if image aspect ratio varies.
-4. 🔢 **Tensor Transformation** — Convert image to PyTorch tensor format.
-5. 🧠 **Inference** — Feed image into trained CNN+CRNN model.
-6. 🧾 **CTC Decode** — Extract predicted character sequence.
-7. 🧾 **Return Unicode** — Serve output as a Unicode Burmese string via API.
+- **Framework:** FastAPI
+- **Core Libraries:**
+  - `torch`, `torchvision` for model inference
+  - `opencv-python` for image processing
+  - `numpy` for array operations
+  - `fastapi`, `uvicorn` for API service
+- **Model:** Trained PyTorch model (CNN+CRNN with CTC loss)
 
----
+## Security & Data Protection
 
-### 🏗️ Backend (Python)
+- Only accepts image files (`image/*` MIME types)
+- Ready for JWT-based authentication and HTTPS deployment
+- Future plans for encrypted database support (PostgreSQL/MongoDB)
 
-* **Framework:** FastAPI
-* **Libraries:**
+## API Usage
 
-  * `torch`, `torchvision` — model loading and inference
-  * `opencv-python` — image preprocessing
-  * `numpy` — array manipulation
-  * `fastapi`, `uvicorn` — API layer for OCR service
-* **Model:** Trained PyTorch model (CNN+CRNN with CTC loss)
+- **POST** `/ocr`
+  - **Body:** Multipart form data (`image`)
+  - **Response:** `{ "text": "မြန်မာ့အရေးရာ" }`
 
----
+## (Optional) Frontend
 
-### 🔐 Security & Data Protection
+- Built with Next.js & Tailwind CSS
+- Allows image upload and displays extracted Unicode text
+- Responsive, clean UI with custom-built components
 
-* Only accepts image uploads with `image/*` MIME type
-* Can integrate **JWT authentication** for future user control
-* API prepared for **HTTPS deployment**
-* Future integration with **encrypted database** (PostgreSQL or MongoDB)
+## Sample Use Cases
 
----
+| Sector           | Example Use                                      |
+|------------------|--------------------------------------------------|
+| Government       | NRC card/census digitization                     |
+| Education        | Student records and exam papers digitization      |
+| Archives         | Preserving historical handwritten documents       |
+| Business/Finance | Automating form and receipt data entry           |
 
-### 📦 API Endpoint
+## Roadmap
 
-* **POST** `/ocr`
-
-  * **Body:** Multipart form data (`image`)
-  * **Response:** `{ "text": "မြန်မာ့အရေးရာ" }`
-
----
-
-### 🖥️ (Optional) Frontend (Next.js + Tailwind CSS)
-
-* Upload handwritten image
-* View extracted Unicode text
-* Clean, modern, and responsive UI
-* Custom components only (no UI libraries)
-
----
-
-### 💼 Use Cases
-
-| Sector           | Example Use                                     |
-| ---------------- | ----------------------------------------------- |
-| Government       | Scanning NRC cards, census records              |
-| Education        | Digitizing student records, handwritten reports |
-| Archives         | Historical handwritten document preservation    |
-| Business/Finance | Forms processing (loans, receipts, etc.)        |
-
----
-
-### 📌 Future Plans
-
-* [ ] Add **user login and dashboard**
-* [ ] Track **OCR history per user**
-* [ ] Export results to CSV or database
-* [ ] **Text correction** using LLMs (OpenRouter or Burmese spellcheckers)
-* [ ] Mobile-first support for image capture
+- [ ] User login and dashboard
+- [ ] User-specific OCR history
+- [ ] Export results (CSV/database)
+- [ ] Text correction with LLMs or Burmese spellcheckers
+- [ ] Mobile-first image capture support
 
 ---
