@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  ocr-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models/weights:/app/models/weights
+    environment:
+      - DEBUG=True
+      - HOST=0.0.0.0
+      - PORT=8000
+    restart: unless-stopped
