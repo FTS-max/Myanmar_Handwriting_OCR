@@ -52,7 +52,7 @@
 
 /* Custom styles for OCR application */
 .drop-zone-active {
-  @apply border-primary bg-primary/[.05];
+  @apply border-primary bg-primary-light;
 }
 
 /* Ensure proper display of Burmese text */
