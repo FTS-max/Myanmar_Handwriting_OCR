@@ -3,7 +3,7 @@ import { validateImage } from '@/utils/imageUtils';
 
 interface UseUploadReturn {
   isDragging: boolean;
-  fileInputRef: React.RefObject<HTMLInputElement>;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
   handleFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleDragEnter: (event: DragEvent<HTMLDivElement>) => void;
   handleDragOver: (event: DragEvent<HTMLDivElement>) => void;
